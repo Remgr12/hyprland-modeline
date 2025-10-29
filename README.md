@@ -1,5 +1,5 @@
 # Hyprland-modeline
-> Script to quickly change modeline.
+> Script to quickly change modelines.
 
 This is a scipt which when combined with a keybind would open a window to change your modeline (resolution) for example when playing video games and needing a strechted resolution.
 
@@ -39,8 +39,9 @@ windowrule = center, title:^(modeline)$
 
 The art from lines 25-50 could also be changed to whatever ascii art you have laying around but the width and heigth of the window should be changed appropriately, or else the script won't function.
 
-This is how it would approximately look:
+This is how it would approximately look (nothing fancy):
 
+<img width="716" height="450" alt="image" src="https://github.com/user-attachments/assets/f0c2aefd-1667-49e1-ab62-dfba618a6bc6" />
 
 ## Credits
 
