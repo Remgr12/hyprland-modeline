@@ -2,9 +2,27 @@
 
 # A script to switch between different modelines for a specific monitor in Hyprland.
 
-# --- IMPORTANT ---
-# SET THE PATH TO YOUR HYPRLAND MONITOR CONFIG FILE HERE
+# --- User Configuration ---
+# Set the path to your Hyprland monitor config file here
 CONFIG_FILE="$HOME/.config/hypr/hyprland.conf"
+
+# Define the monitor name
+MONITOR_NAME="HDMI-A-2"
+
+# Define the modeline patterns and their corresponding menu entries
+MODELINE_PATTERNS=(
+    "modeline 297.00 1920"
+    "modeline 299.93 1440"
+    "modeline 299.45 1280"
+    # Add more modeline patterns here
+)
+
+MENU_ENTRIES=(
+    "1920x1080"
+    "1440x1080"
+    "1280x960"
+    # Add more menu entries here
+)
 
 # --- Check if the config file exists ---
 if [ ! -f "$CONFIG_FILE" ]; then
@@ -12,15 +30,7 @@ if [ ! -f "$CONFIG_FILE" ]; then
     exit 1
 fi
 
-# --- Define modeline patterns ---
-MODELINE_1_PATTERN="modeline 297.00 1920" 
-MODELINE_2_PATTERN="modeline 299.93 1440" 
-MODELINE_3_PATTERN="modeline 299.45 1280"
-# MODELINE_4_PATTERN="modeline x x"
-# MODELINE_5_PATTERN="modeline x x" 
-# MODELINE_6_PATTERN="modeline x x"
-
-# --- Define the multi-line text for the logo and the menu ---
+# --- Define the multi-line text for the logo ---
 read -r -d '' LOGO_ART << "EOF"
 ██████████████████████████████████████████████████████
 ██████████████████████████████████████████████████████
@@ -50,17 +60,11 @@ read -r -d '' LOGO_ART << "EOF"
 █████████████████████████████     ████████████████████
 EOF
 
-read -r -d '' MENU_TEXT << "EOF"
-
-Select a modeline for monitor HDMI-A-2:
-  1) 1920x1080
-  2) 1440x1080
-  3) 1280x960
-# 4) xyz
-# 5) xyz
-# 6) xyz
-
-EOF
+# --- Generate the menu text ---
+MENU_TEXT="\nSelect a modeline for monitor $MONITOR_NAME:\n"
+for i in "${!MENU_ENTRIES[@]}"; do
+    MENU_TEXT+="  $(($i + 1))) ${MENU_ENTRIES[$i]}\n"
+done
 
 # --- Main Script Logic ---
 clear
@@ -80,28 +84,18 @@ for ((i=0; i<max_lines; i++)); do
 done
 
 # --- Display the prompt and get user input ---
-read -p "Enter your choice (1-3): " choice
+read -p "Enter your choice (1-${#MODELINE_PATTERNS[@]}): " choice
 
 # --- Process the choice ---
-case $choice in
-    1)
-        TARGET_PATTERN=$MODELINE_1_PATTERN
-        ;;
-    2)
-        TARGET_PATTERN=$MODELINE_2_PATTERN
-        ;;
-    3)
-        TARGET_PATTERN=$MODELINE_3_PATTERN
-        ;;
-    *)
-        echo "Invalid choice. Exiting."
-        exit 1
-        ;;
-esac
+if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -ge 1 ] && [ "$choice" -le "${#MODELINE_PATTERNS[@]}" ]; then
+    TARGET_PATTERN="${MODELINE_PATTERNS[$(($choice - 1))]}"
+else
+    echo "Invalid choice. Exiting."
+    exit 1
+fi
 
-sed -i -E "s/^(monitor = HDMI-A-2, modeline.*)/#\1/" "$CONFIG_FILE"
-
-sed -i -E "s/^#(monitor = HDMI-A-2, .*$TARGET_PATTERN.*)/\1/" "$CONFIG_FILE"
+sed -i -E "s/^(monitor = $MONITOR_NAME, modeline.*)/#\1/" "$CONFIG_FILE"
+sed -i -E "s/^#(monitor = $MONITOR_NAME, .*$TARGET_PATTERN.*)/\1/" "$CONFIG_FILE"
 
 hyprctl reload
 
