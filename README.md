@@ -1,11 +1,12 @@
-# Hyprland-modeline
-> Script to quickly change modelines.
+# Hyprland Modeline Switcher
 
-This is a scipt which when combined with a keybind would open a window to change your modeline (resolution) for example when playing video games and needing a strechted resolution.
+> A script to quickly switch between different modelines in Hyprland.
+
+This script, when combined with a keybinding, opens a terminal window to change your modeline (resolution), which is useful for tasks like gaming that require a stretched resolution.
 
 ## Installation
 
-Fistly make sure that you already have a few modelines in your hyprland.conf (or similar) config. Something along the lines of this
+First, make sure that you already have a few modelines in your `hyprland.conf` (or similar) config file. It should look something like this:
 
 ```bash
 monitor = HDMI-A-2, modeline 297.00 1920 2008 2052 2200 1080 1084 1089 1125 +hsync +vsync, auto, 1
@@ -13,36 +14,37 @@ monitor = HDMI-A-2, modeline 297.00 1920 2008 2052 2200 1080 1084 1089 1125 +hsy
 #monitor = HDMI-A-2, modeline 299.45 1280 1360 1404 1560 960 963 968 1005 +hsync +vsync, auto, 1
 ```
 
-Only the active one should be uncommented or else it'll kind of trip all over itself. From here on forward the example will always be these 3 resolutions (1920x1080;1440x1080;1280x960)
+Only the active modeline should be uncommented, or the script will not function correctly. The following examples will use these three resolutions: 1920x1080, 1440x1080, and 1280x960.
 
-Then after you made sure of the first step clone the repo and then open up the .sh file. A few things need to be changed:
-1. Change the path of the CONFIG_FILE in the seventh line if your modelines' location differs
-2. In lines 16-18 the first few words/numbers (?) of the modelines need to be defined. Make sure that you specify so long so that they're not identical anymore to each other.
-3. In lines 53-55 you should change the resolutions to the ones you have (eg. 1920x1080;2560x1440) 
-4. Should you have more than three modelines I added three extra commented out entries which should be enough for the majority of people.
+Next, clone the repository and open the `modeline_switch.sh` file to configure it. You will need to change the following:
 
-## Usage example
+1.  **`CONFIG_FILE`**: Set the path to your Hyprland configuration file (e.g., `~/.config/hypr/hyprland.conf`).
+2.  **`MONITOR_NAME`**: Specify the name of the monitor you want to control (e.g., `HDMI-A-2`).
+3.  **`MODELINE_PATTERNS`**: Define the unique starting patterns of your modelines. Make sure each pattern is distinct enough to avoid conflicts.
+4.  **`MENU_ENTRIES`**: Customize the display names for each modeline in the selection menu.
 
-You would bind this script to a keybing; eg. for opening it with kitty
+## Usage Example
+
+You can bind this script to a keybinding, for example, to open it with Kitty:
 
 ```bash
 bind = SUPER, D, exec, kitty --title "modeline" -e ~/hyprland-modeline/modeline_switch.sh
 ```
 
-It could also be given a few windowrules to specifise the size of it
+You can also add a few window rules to specify its size and position:
 
 ```bash
 windowrule = float, title:^(modeline)$
-windowrule = size 716 450, title:^(modeline)$ # 716 is the width, 450 the height 
+windowrule = size 716 450, title:^(modeline)$
 windowrule = center, title:^(modeline)$
 ```
 
-The art from lines 25-50 could also be changed to whatever ascii art you have laying around but the width and heigth of the window should be changed appropriately, or else the script won't function.
+The ASCII art in the script can be replaced with your own, but you may need to adjust the window size to fit it properly.
 
-This is how it would approximately look (nothing fancy):
+This is how it will look:
 
 <img width="716" height="450" alt="image" src="https://github.com/user-attachments/assets/f0c2aefd-1667-49e1-ab62-dfba618a6bc6" />
 
 ## Credits
 
-1. Omarchy for the logo (https://github.com/basecamp/omarchy)
+-   **Omarchy** for the logo ([link](https://github.com/basecamp/omarchy)).
