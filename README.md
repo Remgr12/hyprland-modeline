@@ -56,7 +56,7 @@ This is how it will look:
 
 <img width="716" height="450" alt="image" src="https://github.com/user-attachments/assets/f0c2aefd-1667-49e1-ab62-dfba618a6bc6" />
 
-## Creditsa
+## Credits
 
 - **Omarchy** for the logo:
   [Omarchy Github](https://github.com/basecamp/omarchy)
