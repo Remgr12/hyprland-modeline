@@ -45,7 +45,7 @@ You can also add a few window rules to specify its size and position:
 
 ```bash
 windowrule = float, title:^(modeline)$
-windowrule = size 725 450, title:^(modeline)$
+windowrule = size 730 450, title:^(modeline)$
 windowrule = center, title:^(modeline)$
 ```
 
